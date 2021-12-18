@@ -31,7 +31,7 @@ const Title = () => (
 class App extends Component {
     constructor(props) {
         super(props);
-        this.state = {inCriteria: {}};
+        this.state = { inCriteria: {} };
         this.searchCriteriaCallback = this.searchCriteriaCallback.bind(this);
     }
 
@@ -79,25 +79,27 @@ class App extends Component {
 
     searchCriteriaCallback(criteria) {
         console.log("searchCriteriaCallback =>\n");
-        console.log(criteria); 
-        this.setState({inCriteria: criteria})
+        console.log(criteria);
+        this.setState({ inCriteria: criteria });
     }
 
     render() {
         return (
             <div className="App">
-                <NavigationBar />
                 <LeftHandSide />
                 <BarGraph />
                 <USAMap
                     customize={this.statesCustomConfig()}
                     onClick={this.mapHandler}
                 />
-                
+
                 <SearchCriteria cbFunc={this.searchCriteriaCallback} />
 
-                { Object.keys(this.state.inCriteria).length !== 0
-                ? <SearchResults criteria={this.state.inCriteria}/> : "" }
+                {Object.keys(this.state.inCriteria).length !== 0 ? (
+                    <SearchResults criteria={this.state.inCriteria} />
+                ) : (
+                    ""
+                )}
             </div>
         );
     }

@@ -47,10 +47,7 @@ const CalendarGlyph = () => (
 const DatePortion = () => (
     <div>
         <CalendarGlyph />
-        <ColoredLine color="red" />
-        <h1>Refreshed</h1>
         <h1>{currentDate}</h1>
-        <ColoredLine color="red" />
     </div>
 );
 const COVIDCases = ({ count }) => (
