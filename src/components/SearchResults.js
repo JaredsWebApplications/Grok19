@@ -129,7 +129,10 @@ class SearchResults extends React.Component {
                     </thead>
                     <tbody>{this.renderRows()}</tbody>
                 </table>
-                <LineGraphBase state={this.current_state_used} />
+                <LineGraphBase
+                    state={this.current_state_used}
+                    title={"Vaccination Rate of " + this.current_state_used}
+                />
             </div>
         );
     }

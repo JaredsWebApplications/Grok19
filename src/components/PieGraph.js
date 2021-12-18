@@ -1,12 +1,6 @@
 import "./PieGraph.css";
 import React, { useState, useEffect } from "react";
-import {
-    PieChart,
-    Pie,
-    Legend,
-    Tooltip,
-    ResponsiveContainer
-} from "recharts";
+import { PieChart, Pie, Legend, Tooltip, ResponsiveContainer } from "recharts";
 
 var axios = require("axios");
 
@@ -55,6 +49,7 @@ export default function PieGraph() {
 
     // data will be null when fetch call fails
     if (!data) return <span>Data not available for a Pie Chart</span>;
+    console.log(data);
     return (
         <div>
             <ResponsiveContainer width="100%" height="100%">
