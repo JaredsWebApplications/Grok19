@@ -5,6 +5,7 @@ import { numberWithCommas, titleCase } from "../helper/conversion";
 
 import LineGraphBase from "./LineGraphBase";
 import BarGraph from "./BarGraph";
+import PieGraph from "./PieGraph";
 var axios = require("axios");
 
 class SearchResults extends React.Component {
@@ -135,6 +136,7 @@ class SearchResults extends React.Component {
                     title={"Vaccination Rate of " + this.current_state_used}
                 />
                 <BarGraph state={this.current_state_used} />
+                <PieGraph />
             </div>
         );
     }

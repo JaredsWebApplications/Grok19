@@ -13,7 +13,6 @@ import NavigationBar from "./components/NavigationBar";
 
 import SearchResults from "./components/SearchResults";
 import SearchCriteria from "./components/SearchCriteria";
-import PieGraph from "./components/PieGraph";
 
 var axios = require("axios");
 
@@ -68,6 +67,7 @@ class App extends Component {
         console.log(criteria);
         this.setState({ inCriteria: criteria });
     }
+
     render() {
         return (
             <div className="App">
@@ -89,5 +89,4 @@ class App extends Component {
     }
 }
 
-//<LeftHandSide />
 export default App;
