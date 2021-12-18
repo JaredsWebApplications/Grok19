@@ -14,6 +14,7 @@ class SearchResults extends React.Component {
         this.current_state_used = "";
         this.date = "";
         this.state = { rows: [] };
+        this.did_fetch = false;
 
         this.fetchData = this.fetchData.bind(this);
         this.getDaysSinceCurrentDate = this.getDaysSinceCurrentDate.bind(this);
@@ -22,11 +23,6 @@ class SearchResults extends React.Component {
 
     componentDidMount() {
         this.results = [];
-
-        (async () => {
-            console.log("Here@");
-            this.fetchData(this.props.criteria);
-        })();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -93,6 +89,10 @@ class SearchResults extends React.Component {
     }
 
     renderRows() {
+        if (!this.did_fetch) {
+            this.fetchData(this.props.criteria);
+            this.did_fetch = true;
+        }
         const rows = this.state.rows;
         return rows.map((elem) => {
             return (
