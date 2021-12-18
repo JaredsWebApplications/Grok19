@@ -14,6 +14,8 @@ import NavigationBar from "./components/NavigationBar";
 import SearchResults from "./components/SearchResults";
 import SearchCriteria from "./components/SearchCriteria";
 
+import { GlobalTrendGraphFunction } from "./components/LineGraphBase";
+
 var axios = require("axios");
 
 const Title = () => (
@@ -86,6 +88,7 @@ class App extends Component {
     render() {
         return (
             <div className="App">
+                <GlobalTrendGraphFunction />
                 <LeftHandSide />
                 <BarGraph />
                 <USAMap
