@@ -18,7 +18,7 @@ A COVID 19 dashboard written in React JS to display information regarding infect
 
 # TODO
 
-- [ ] Continental US interactive map
+- [X] Continental US interactive map
 - [ ] World view (these actions apply to each country hovered over)
     - [ ] Show total deaths that day
     - [ ] Show total infections that day
@@ -37,8 +37,6 @@ A COVID 19 dashboard written in React JS to display information regarding infect
     - [ ] Cases
         - [ ] Daily
         - [ ] Overall
-    - [ ] Minimum date
-    - [ ] Maximum date
     - [ ] Search
 - [ ] Result window 
     - [ ] Table view
