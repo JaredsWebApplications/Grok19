@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
 import { numberWithCommas, titleCase } from "../helper/conversion";
 
+import LineGraphBase from "./LineGraphBase";
 var axios = require("axios");
 
 class SearchResults extends React.Component {
@@ -10,6 +11,7 @@ class SearchResults extends React.Component {
         super(props);
 
         this.results = [];
+        this.current_state_used = "";
         this.date = "";
         this.state = { rows: [] };
 
@@ -20,7 +22,11 @@ class SearchResults extends React.Component {
 
     componentDidMount() {
         this.results = [];
-        this.fetchData(this.props.criteria);
+
+        (async () => {
+            console.log("Here@");
+            this.fetchData(this.props.criteria);
+        })();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -47,28 +53,35 @@ class SearchResults extends React.Component {
     }
 
     fetchData(criteria) {
+        this.current_state_used = criteria.inState;
+        console.log(this.current_state_used);
         this.date = new Date(criteria.inDate).toLocaleDateString();
         // NOTE: Only getting data from yesterday. Setting lastdays > 1 will mean more oncoming data, therefore heavier load / longer wait.
         var url = `https://disease.sh/v3/covid-19/historical/usacounties/${criteria.inState.toLowerCase()}?lastdays=3`;
-        axios.get(url).then(
-            function (response) {
-                response.data.map((elem) => {
-                    if (criteria.inCounty.length !== 0) {
-                        if (criteria.inCounty.toLowerCase() === elem.county) {
-                            console.log("matches county");
+
+        (async () => {
+            axios.get(url).then(
+                function (response) {
+                    response.data.map((elem) => {
+                        if (criteria.inCounty.length !== 0) {
+                            if (
+                                criteria.inCounty.toLowerCase() === elem.county
+                            ) {
+                                console.log("matches county");
+                                this.insertResult(criteria, elem);
+                            }
+                        } else {
+                            console.log("matches all");
                             this.insertResult(criteria, elem);
                         }
-                    } else {
-                        console.log("matches all");
-                        this.insertResult(criteria, elem);
-                    }
-                });
+                    });
 
-                this.setState({ rows: this.results });
+                    this.setState({ rows: this.results });
 
-                window.scrollBy(0, 400);
-            }.bind(this)
-        );
+                    window.scrollBy(0, 400);
+                }.bind(this)
+            );
+        })();
     }
 
     // https://stackoverflow.com/questions/12986068/how-to-calculate-number-of-days-between-today-and-given-date-and-code-for-gettim
@@ -116,6 +129,7 @@ class SearchResults extends React.Component {
                     </thead>
                     <tbody>{this.renderRows()}</tbody>
                 </table>
+                <LineGraphBase state={this.current_state_used} />
             </div>
         );
     }

@@ -3,15 +3,18 @@ import ReactApexChart from "react-apexcharts";
 import ApexCharts from "apexcharts";
 var axios = require("axios");
 
-async function obtainVaccinationPerStateData(state) {
-    const response = await axios.get(
-        `https://disease.sh/v3/covid-19/vaccine/coverage/states/${state}?lastdays=all&fullData=false`
-    );
+async function obtainVaccinationPerStateData(url) {
+    const response = await axios.get(url);
     console.log(response);
     return response.data.timeline;
 }
+const capitalize = (s) => {
+    if (typeof s !== "string") return "";
+    return s.charAt(0).toUpperCase() + s.slice(1);
+};
 
 export default function LineGraphBase(props) {
+    console.log(props);
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -20,7 +23,14 @@ export default function LineGraphBase(props) {
             try {
                 // set loading to true before calling API
                 setLoading(true);
-                const data = await obtainVaccinationPerStateData(props.state);
+                console.log(props);
+                let url =
+                    "https://disease.sh/v3/covid-19/vaccine/coverage/states/" +
+                    props.state +
+                    "?lastdays=all&fullData=false";
+                console.log(url);
+                const data = await obtainVaccinationPerStateData(url);
+                console.log(data);
                 setData(data);
                 // switch loading to false after fetch is complete
                 setLoading(false);

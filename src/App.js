@@ -14,8 +14,6 @@ import NavigationBar from "./components/NavigationBar";
 import SearchResults from "./components/SearchResults";
 import SearchCriteria from "./components/SearchCriteria";
 
-import LineGraphBase from "./components/LineGraphBase";
-
 var axios = require("axios");
 
 const Title = () => (
@@ -23,8 +21,6 @@ const Title = () => (
         <b>United States Map</b>
     </h1>
 );
-
-const state = "California";
 
 class App extends Component {
     constructor(props) {
@@ -76,7 +72,6 @@ class App extends Component {
         return (
             <div className="App">
                 <LeftHandSide />
-                <LineGraphBase state={state} />
                 <USAMap
                     customize={this.statesCustomConfig()}
                     onClick={this.mapHandler}
@@ -94,4 +89,5 @@ class App extends Component {
     }
 }
 
+//<LeftHandSide />
 export default App;
