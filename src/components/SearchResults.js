@@ -1,19 +1,21 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import React from 'react';
+import React from "react";
+import { numberWithCommas, titleCase } from "../helper/conversion";
 
 var axios = require("axios");
 
 class SearchResults extends React.Component {
     constructor(props) {
         super(props);
-        
+
         this.results = [];
         this.date = "";
         this.state = { rows: [] };
 
         this.fetchData = this.fetchData.bind(this);
         this.getDaysSinceCurrentDate = this.getDaysSinceCurrentDate.bind(this);
+        this.insertResult = this.insertResult.bind(this);
     }
 
     componentDidMount() {
@@ -23,83 +25,50 @@ class SearchResults extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         this.results = [];
-        //console.log("componentDidUpdate =>\n");
-        //console.log(nextProps.criteria);
         this.fetchData(nextProps.criteria);
     }
 
-    /*fetchData(criteria) {
-        if (criteria.inCounty.length === 0) {
-            var url = `https://disease.sh/v3/covid-19/nyt/states/${criteria.inState}?lastdays=${this.getDaysSinceCurrentDate(criteria.inDate)}`;
-            axios
-                .get(url)
-                .then(function (response) {
-                    //console.log(response);
-                    response.data.map(elem => {
-                        console.log(elem);
-                    });
-                });
-        }
-        else {
-            var url = `https://disease.sh/v3/covid-19/nyt/counties/${criteria.inCounty}?lastdays=${this.getDaysSinceCurrentDate(criteria.inDate)}`; // max lastdays = 30
-            axios
-                .get(url)
-                .then(function (response) {
-                    //console.log(response);
-                    response.data.map(elem => {
-                        if (criteria.inState !== 0 && elem.state === criteria.inState) {
-                            console.log("acceptable => " + elem);
-                        }
-                    });
-                });
-        }
-    }*/
+    insertResult(criteria, elem) {
+        var date = new Date(criteria.inDate).toLocaleDateString();
+        // fix year
+        date =
+            date.substring(0, date.length - 4) +
+            date.substring(date.length - 2, date.length);
+
+        //console.log(date);
+        //console.log(elem.timeline.cases);
+
+        this.results.push({
+            state: elem.province,
+            county: elem.county,
+            cases: elem.timeline.cases[date],
+            deaths: elem.timeline.deaths[date],
+        });
+    }
 
     fetchData(criteria) {
         this.date = new Date(criteria.inDate).toLocaleDateString();
         // NOTE: Only getting data from yesterday. Setting lastdays > 1 will mean more oncoming data, therefore heavier load / longer wait.
         var url = `https://disease.sh/v3/covid-19/historical/usacounties/${criteria.inState.toLowerCase()}?lastdays=3`;
-        axios
-            .get(url)
-            .then(function (response) {
-                response.data.map(elem => {
+        axios.get(url).then(
+            function (response) {
+                response.data.map((elem) => {
                     if (criteria.inCounty.length !== 0) {
                         if (criteria.inCounty.toLowerCase() === elem.county) {
                             console.log("matches county");
-                            
-                            var date = new Date(criteria.inDate).toLocaleDateString();
-                            // fix year
-                            date = date.substring(0, date.length - 4) + date.substring(date.length - 2, date.length);
-
-                            //console.log(date);
-                            //console.log(elem.timeline.cases);
-
-                            this.results.push({
-                                state: elem.province,
-                                county: elem.county,
-                                cases: elem.timeline.cases[date],
-                                deaths: elem.timeline.deaths[date]
-                            });
+                            this.insertResult(criteria, elem);
                         }
-                    }
-                    else {
+                    } else {
                         console.log("matches all");
-
-                        var date = new Date(criteria.inDate).toLocaleDateString();
-                        // fix year
-                        date = date.substring(0, date.length - 4) + date.substring(date.length - 2, date.length);
-
-                        this.results.push({
-                            state: elem.province,
-                            county: elem.county,
-                            cases: elem.timeline.cases[date],
-                            deaths: elem.timeline.deaths[date]
-                        });
+                        this.insertResult(criteria, elem);
                     }
                 });
 
                 this.setState({ rows: this.results });
-            }.bind(this));
+
+                window.scrollBy(0, 400);
+            }.bind(this)
+        );
     }
 
     // https://stackoverflow.com/questions/12986068/how-to-calculate-number-of-days-between-today-and-given-date-and-code-for-gettim
@@ -112,35 +81,40 @@ class SearchResults extends React.Component {
 
     renderRows() {
         const rows = this.state.rows;
-        return rows.map(elem => {
+        return rows.map((elem) => {
             return (
                 <tr>
-                    <td>{elem.state}</td>
-                    <td>{elem.county}</td>
-                    <td>{elem.cases}</td>
-                    <td>{elem.deaths}</td>
+                    <td>{titleCase(elem.state)}</td>
+                    <td>{titleCase(elem.county)}</td>
+                    <td>{numberWithCommas(elem.cases)}</td>
+                    <td>{numberWithCommas(elem.deaths)}</td>
                 </tr>
             );
-        })
+        });
     }
 
     render() {
         return (
             <div className="search-results">
-                <br/>
+                <br />
                 <p>Cases since {this.date}</p>
-                <table className="table" style={{"width":"600px","marginLeft":"auto","marginRight":"auto"}}>
+                <table
+                    className="table"
+                    style={{
+                        width: "600px",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                    }}
+                >
                     <thead className="thead-light">
                         <tr>
                             <th scope="col">State</th>
                             <th scope="col">County</th>
-                            <th scope="col">Deaths</th>
                             <th scope="col">Cases</th>
+                            <th scope="col">Deaths</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        {this.renderRows()}
-                    </tbody>
+                    <tbody>{this.renderRows()}</tbody>
                 </table>
             </div>
         );
