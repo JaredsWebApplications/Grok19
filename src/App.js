@@ -14,7 +14,7 @@ import NavigationBar from "./components/NavigationBar";
 import SearchResults from "./components/SearchResults";
 import SearchCriteria from "./components/SearchCriteria";
 
-import { GlobalTrendGraphFunction } from "./components/LineGraphBase";
+import LineGraphBase from "./components/LineGraphBase";
 
 var axios = require("axios");
 
@@ -24,11 +24,7 @@ const Title = () => (
     </h1>
 );
 
-//<Title />
-//<USAMap
-//customize={this.statesCustomConfig()}
-//onClick={this.mapHandler}
-///>
+const state = "California";
 
 class App extends Component {
     constructor(props) {
@@ -62,7 +58,6 @@ class App extends Component {
             .catch(function (error) {
                 console.log(error);
             });
-        //alert(event.target.dataset.name);
     };
 
     /* optional customization of filling per state and calling custom callbacks per state */
@@ -81,6 +76,7 @@ class App extends Component {
         return (
             <div className="App">
                 <LeftHandSide />
+                <LineGraphBase state={state} />
                 <USAMap
                     customize={this.statesCustomConfig()}
                     onClick={this.mapHandler}

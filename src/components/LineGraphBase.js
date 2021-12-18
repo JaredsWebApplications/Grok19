@@ -3,14 +3,15 @@ import ReactApexChart from "react-apexcharts";
 import ApexCharts from "apexcharts";
 var axios = require("axios");
 
-async function obtainData() {
+async function obtainVaccinationPerStateData(state) {
     const response = await axios.get(
-        "https://corona.lmao.ninja/v3/covid-19/historical/all?lastdays=all"
+        `https://disease.sh/v3/covid-19/vaccine/coverage/states/${state}?lastdays=all&fullData=false`
     );
-    return response.data;
+    console.log(response);
+    return response.data.timeline;
 }
 
-export const GlobalTrendGraphFunction = () => {
+export default function LineGraphBase(props) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -19,9 +20,7 @@ export const GlobalTrendGraphFunction = () => {
             try {
                 // set loading to true before calling API
                 setLoading(true);
-                const data = await obtainData();
-                console.log(data);
-                console.log("HELLO MOM I MADE IT");
+                const data = await obtainVaccinationPerStateData(props.state);
                 setData(data);
                 // switch loading to false after fetch is complete
                 setLoading(false);
@@ -41,9 +40,9 @@ export const GlobalTrendGraphFunction = () => {
 
     let series = [
         {
-            name: "Global Cases",
+            name: props.title,
             // amount of cases
-            data: Object.values(data.cases),
+            data: Object.values(data),
         },
     ];
     let options = {
@@ -61,7 +60,7 @@ export const GlobalTrendGraphFunction = () => {
             curve: "straight",
         },
         title: {
-            text: "Global COVID Trend Since Epoch",
+            text: props.title,
             align: "left",
         },
         grid: {
@@ -72,7 +71,7 @@ export const GlobalTrendGraphFunction = () => {
         },
         xaxis: {
             // dates
-            categories: Object.keys(data.cases),
+            categories: Object.keys(data),
         },
     };
 
@@ -86,4 +85,4 @@ export const GlobalTrendGraphFunction = () => {
             />
         </div>
     );
-};
+}
