@@ -19,7 +19,7 @@
         "react-scripts": "4.0.3",
         "react-simple-maps": "^2.3.0",
         "react-usa-map": "^1.5.0",
-        "recharts": "^2.1.6",
+        "recharts": "^2.1.8",
         "sweetalert": "^2.1.2",
         "web-vitals": "^1.0.1"
     },

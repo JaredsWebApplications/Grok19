@@ -46,16 +46,14 @@ const CalendarGlyph = () => (
 
 const DatePortion = () => (
     <div>
-        <CalendarGlyph />
-        <h1>{currentDate}</h1>
+        <h3>Last Updated: {currentDate}</h3>
     </div>
 );
 const COVIDCases = ({ count }) => (
     <div>
         <h1>
-            United States COVID-19 Cases
+            United States COVID-19 Cases since 01/01/2021
             <h2>{count}</h2>
-            <h2>Select a View</h2>
         </h1>
     </div>
 );

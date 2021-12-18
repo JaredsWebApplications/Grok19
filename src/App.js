@@ -14,8 +14,6 @@ import NavigationBar from "./components/NavigationBar";
 import SearchResults from "./components/SearchResults";
 import SearchCriteria from "./components/SearchCriteria";
 
-import { GlobalTrendGraphFunction } from "./components/LineGraphBase";
-
 var axios = require("axios");
 
 const Title = () => (
@@ -23,12 +21,6 @@ const Title = () => (
         <b>United States Map</b>
     </h1>
 );
-
-//<Title />
-//<USAMap
-//customize={this.statesCustomConfig()}
-//onClick={this.mapHandler}
-///>
 
 class App extends Component {
     constructor(props) {
@@ -51,7 +43,7 @@ class App extends Component {
                 console.log(response);
                 var message = `State: ${
                     response.data.state
-                }\nCases: ${numberWithCommas(response.data.cases)}`;
+                }\nCases since Epoch: ${numberWithCommas(response.data.cases)}`;
                 swal("hello world!", {
                     buttons: {
                         cancel: "Close",
@@ -62,21 +54,12 @@ class App extends Component {
             .catch(function (error) {
                 console.log(error);
             });
-        //alert(event.target.dataset.name);
     };
 
     /* optional customization of filling per state and calling custom callbacks per state */
     statesCustomConfig = () => {
-        return {
-            NJ: {
-                fill: "navy",
-                clickHandler: (event) =>
-                    console.log("Custom handler for NJ", event.target.dataset),
-            },
-            NY: {
-                fill: "#CC0000",
-            },
-        };
+        return {};
+        //\
     };
 
     searchCriteriaCallback(criteria) {
@@ -88,9 +71,7 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <GlobalTrendGraphFunction />
                 <LeftHandSide />
-                <BarGraph />
                 <USAMap
                     customize={this.statesCustomConfig()}
                     onClick={this.mapHandler}

@@ -8,6 +8,7 @@ A COVID 19 dashboard written in React JS to display information regarding infect
 
 - API documentation found [here](https://documenter.getpostman.com/view/1678623/SzfDx54T?version=latest)
     * This data is provided by Jon Hopkins University
+- [This](https://disease.sh/docs/) API documentation was used for the USA interactive map
 
 # Dependencies
 - Axios for HTTP GET requests
@@ -16,33 +17,9 @@ A COVID 19 dashboard written in React JS to display information regarding infect
 - Calendar date picker [here](https://github.com/stephy/CalendarPicker)
 - Sweet Alert [here](https://sweetalert.js.org/guides/#advanced-examples)
 
-# TODO
-
-- [X] Continental US interactive map
-- [ ] World view (these actions apply to each country hovered over)
-    - [ ] Show total deaths that day
-    - [ ] Show total infections that day
-- [ ] Grok Window
-    - [ ] State
-        - [ ] Drop down
-        - [ ] All selection
-        - [ ] Conditional for drop down when all selected
-    - [ ] County
-        - [ ] Drop down
-        - [ ] All selection
-        - [ ] Conditional for drop down when all selected
-    - [ ] Deaths
-        - [ ] Daily
-        - [ ] Overall
-    - [ ] Cases
-        - [ ] Daily
-        - [ ] Overall
-    - [ ] Search
-- [ ] Result window 
-    - [ ] Table view
-    - [ ] Graphs
-
 ## Installation using Docker
+
+**NOTE:** Docker has been having issues working, I decided to just deploy to [Heroku](https://grok19.herokuapp.com/).
 
 This project is simple to setup:
 
