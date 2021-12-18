@@ -71,6 +71,7 @@ class App extends Component {
     render() {
         return (
             <div className="App">
+                <a href="https://github.com/JaredDyreson/Grok-19#grok-19">More Information</a>
                 <LeftHandSide />
                 <USAMap
                     customize={this.statesCustomConfig()}
