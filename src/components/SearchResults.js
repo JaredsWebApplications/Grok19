@@ -4,6 +4,7 @@ import React from "react";
 import { numberWithCommas, titleCase } from "../helper/conversion";
 
 import LineGraphBase from "./LineGraphBase";
+import BarGraph from "./BarGraph";
 var axios = require("axios");
 
 class SearchResults extends React.Component {
@@ -133,6 +134,7 @@ class SearchResults extends React.Component {
                     state={this.current_state_used}
                     title={"Vaccination Rate of " + this.current_state_used}
                 />
+                <BarGraph state={this.current_state_used} />
             </div>
         );
     }

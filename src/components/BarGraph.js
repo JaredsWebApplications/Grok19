@@ -13,25 +13,31 @@ import {
 var axios = require("axios");
 
 // endpoint : https://disease.sh/v3/covid-19/states?sort=deaths
+// https://stackoverflow.com/questions/36862334/get-viewport-window-height-in-reactjs
+function getWindowDimensions() {
+    const { innerWidth: width, innerHeight: height } = window;
+    return {
+        width,
+        height,
+    };
+}
 
 async function getStateInformation(url) {
     const response = await axios.get(url);
     var container = [];
-    response.data.slice(0, 5).forEach((element) => {
+    response.data.forEach((element) => {
         var payload = {
-            state: element.state,
-            todayCases: element.todayCases,
-            todayDeaths: element.todayDeaths,
-            amount: 100,
+            county: element.county,
+            todayCases: Object.values(element.timeline.cases)[0],
+            todayDeaths: Object.values(element.timeline.deaths)[0],
         };
         container.push(payload);
     });
-    var top_five_states = response.data.slice(0, 5);
-    console.log(top_five_states);
+    console.log(container);
     return container;
 }
 
-export default function BarGraph() {
+export default function BarGraph(props) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -41,9 +47,8 @@ export default function BarGraph() {
                 // set loading to true before calling API
                 setLoading(true);
                 const data = await getStateInformation(
-                    "https://disease.sh/v3/covid-19/states?sort=deaths"
+                    `https://disease.sh/v3/covid-19/historical/usacounties/${props.state.toLowerCase()}?lastdays=1`
                 );
-                console.log(data);
                 setData(data);
                 // switch loading to false after fetch is complete
                 setLoading(false);
@@ -62,7 +67,7 @@ export default function BarGraph() {
     return (
         <div>
             <BarChart
-                width={500}
+                width={1200}
                 height={300}
                 data={data}
                 layout="horizontal"
@@ -74,7 +79,7 @@ export default function BarGraph() {
                 }}
             >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="state" />
+                <XAxis dataKey="county" />
                 <YAxis yAxisId="left" orientation="left" stroke="#8884d8" />
                 <YAxis yAxisId="right" orientation="right" stroke="#82ca9d" />
                 <Tooltip />
@@ -82,7 +87,6 @@ export default function BarGraph() {
                 <Bar yAxisId="left" dataKey="todayDeaths" fill="#8884d8" />
                 <Bar yAxisId="right" dataKey="todayCases" fill="#82ca9d" />
             </BarChart>
-            <b>Top Five States</b>
         </div>
     );
 }
