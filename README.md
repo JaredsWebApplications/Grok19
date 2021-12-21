@@ -4,6 +4,13 @@ A COVID 19 dashboard written in React JS to display information regarding infect
 
 "Your problem with Vim is that you don't [grok](https://stackoverflow.com/a/1220118) vi"
 
+# Authors
+
+- Jared Dyreson
+- Janessa Vazquez
+- Ryan Jessman
+- Jonathan Hana
+
 # Resources 
 
 - API documentation found [here](https://documenter.getpostman.com/view/1678623/SzfDx54T?version=latest)
