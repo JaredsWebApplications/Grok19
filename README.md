@@ -7,8 +7,6 @@ A COVID 19 dashboard written in React JS to display information regarding infect
 # Authors
 
 - Jared Dyreson
-
-**The following people hardly contributed**
 - Janessa Vazquez
 - Ryan Jessman
 - Jonathan Hana
